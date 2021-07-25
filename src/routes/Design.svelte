@@ -1,7 +1,6 @@
 <script lang="ts">
 	import CardRow from '../components/CardRow.svelte';
     import { ButtonToolbar, Button } from 'sveltestrap';
-	let designMode = true;
 	let answers = [0,0,0,0,0];
 	let remove = function() {
 		answers.pop();
@@ -11,11 +10,12 @@
 		answers.push(0);
 		answers = answers;
 	}
+	$: designUrl = "#/card?"+JSON.stringify(answers);
 </script>
 
 
-<h1>Scratchee</h1>
-<p>Design your Scratchee card below.</p>
+<h1>Scratchee Designer</h1>
+<p>Design your Scratchee Card below.</p>
 
 <ButtonToolbar>
 	<Button color="primary" on:click={add}>Add Row</Button>
@@ -23,5 +23,7 @@
 </ButtonToolbar>
 
 {#each answers as answer, index}
-	<CardRow bind:answer={answer} {designMode} {index}/>
+	<CardRow bind:answer={answer} designMode={true} {index}/>
 {/each}
+
+<p><a href={designUrl}>Scratch this card.</a></p>

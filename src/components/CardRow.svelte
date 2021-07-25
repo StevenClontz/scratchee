@@ -28,7 +28,7 @@
     let choiceClick = (index:number) => () => {
         if (designMode) {
             answer=index;
-        } else if (!reveals.includes(index) && !answered) {
+        } else if (!reveals.includes(index)) {
             reveals.push(index)
             reveals=reveals
         }
@@ -38,7 +38,7 @@
 <ButtonToolbar>
     <Button disabled color="light">{label}.</Button>
     {#each ["A","B","C","D"] as l,i}
-        <CardChoice revealed={reveals.includes(i)} correct={answer==i} on:click={choiceClick(i)} label={l}/>
+        <CardChoice disabled={answered&&!designMode} revealed={reveals.includes(i)} correct={answer==i} on:click={choiceClick(i)} label={l}/>
     {/each}
     {#if !designMode}
         <Button disabled color="light">Points: {score}/4</Button>

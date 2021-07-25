@@ -3,6 +3,7 @@
     export let label = "?";
     export let revealed = false;
     export let correct = false;
+    export let disabled = false;
     let fullLabel = "??";
     let color = "dark";
     let outline = false;
@@ -24,6 +25,7 @@
 
 <Button on:click
         {outline}
-        {color}>
+        {color}
+        {disabled}>
         {fullLabel}
 </Button>
