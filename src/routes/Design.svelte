@@ -16,8 +16,10 @@
 <h1>Scratchee</h1>
 <p>Design your Scratchee card below.</p>
 
+<pre>{answers}</pre>
+
 {#each answers as answer, i}
-	{i+1}. <CardRow bind:answer={answer} {designMode}/>
+	<CardRow bind:answer={answer} {designMode} label={String(i+1)}/>
 {/each}
 <Button color="primary" on:click={add}>Add Row</Button>
 {#if answers.length>1}

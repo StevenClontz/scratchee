@@ -4,24 +4,29 @@
     export let revealed = false;
     export let correct = false;
     export let designMode = false;
-    let color="secondary";
+    let fullLabel = "??";
+    let color = "dark";
     let outline = false;
-    if (revealed || designMode) {
-        outline = true;
-        if (correct) {
-            color = "success";
-            label += "✓";
+    $: {
+        if (revealed || designMode) {
+            outline = true;
+            if (correct) {
+                color = "success";
+                fullLabel = label+"✓";
+            } else {
+                color = "danger";
+                fullLabel = label+"✗";
+            }
         } else {
-            color = "danger";
-            label += "✗";
+            color = "secondary";
+            outline = false;
+            fullLabel = label+"?";
         }
-    } else {
-        label += "?";
     }
 </script>
 
 <Button on:click
         {outline}
         {color}>
-        {label}{correct}
+        {fullLabel}
 </Button>
