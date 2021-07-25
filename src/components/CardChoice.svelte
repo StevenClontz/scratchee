@@ -8,12 +8,13 @@
     let color = "dark";
     let outline = false;
     $: if (revealed) {
-        outline = true;
         if (correct) {
             color = "primary";
+            outline = false;
             fullLabel = label+"✓";
         } else {
             color = "danger";
+            outline = true;
             fullLabel = label+"✗";
         }
     } else {
@@ -24,6 +25,7 @@
 </script>
 
 <Button on:click
+        style="width:3em"
         {outline}
         {color}
         {disabled}>

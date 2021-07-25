@@ -1,30 +1,34 @@
 <script lang="ts">
 	import CardRow from '../components/CardRow.svelte';
 	import {querystring} from 'svelte-spa-router';
-	let answerJson = [];
+	import { Form, FormGroup, Input, Label } from 'sveltestrap';
+import { prevent_default } from 'svelte/internal';
+	let card = {"answers":[],"title":"???","description":"???"};
 	let rows = [];
     try {
-		answerJson = JSON.parse($querystring);
+		card = JSON.parse(atob($querystring));
     } catch {
-		answerJson = []
+		card = {"answers":[],"title":"???","description":"???"};
 	} finally {
-		rows = answerJson.map( answer => {
+		rows = card.answers.map( answer => {
 			return {"answer":answer ,"score": 0}
 		})
 	}
 	$: total = rows.reduce((total, row) => total + (row["score"] || 0), 0);
 </script>
 
-<h1>Scratchee Card</h1>
-<p>Scratch your Scratchee Card below.</p>
-
+<h1>{card.title}</h1>
+<p>{card.description}</p>
 <p>Total score: {total}</p>
 
-{#each rows as row, index}
-	<CardRow answer={row.answer} designMode={false} {index} bind:score={row.score}/>
-{/each}
 {#if rows.length == 0}
 	<p>No valid card was found.</p>
+{:else}
+<Form on:submit={e=>e.preventDefault()}>
+	<FormGroup>
+		{#each rows as row, index}
+			<CardRow answer={row.answer} designMode={false} {index} bind:score={row.score}/>
+		{/each}
+	</FormGroup>
+</Form>
 {/if}
-
-<p><a href="#/design">Design a card.</a></p>
