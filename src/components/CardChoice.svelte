@@ -3,25 +3,22 @@
     export let label = "?";
     export let revealed = false;
     export let correct = false;
-    export let designMode = false;
     let fullLabel = "??";
     let color = "dark";
     let outline = false;
-    $: {
-        if (revealed || designMode) {
-            outline = true;
-            if (correct) {
-                color = "success";
-                fullLabel = label+"✓";
-            } else {
-                color = "danger";
-                fullLabel = label+"✗";
-            }
+    $: if (revealed) {
+        outline = true;
+        if (correct) {
+            color = "primary";
+            fullLabel = label+"✓";
         } else {
-            color = "secondary";
-            outline = false;
-            fullLabel = label+"?";
+            color = "danger";
+            fullLabel = label+"✗";
         }
+    } else {
+        color = "secondary";
+        outline = false;
+        fullLabel = label+"?";
     }
 </script>
 
