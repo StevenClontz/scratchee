@@ -25,7 +25,7 @@ import { prevent_default } from 'svelte/internal';
 
 <h1>
 	Scratchee Designer
-	<small class="text-muted">α.0</small>
+	<small class="text-muted">α.1</small>
 </h1>
 
 
