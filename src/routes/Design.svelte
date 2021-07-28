@@ -3,23 +3,18 @@
     import { ButtonToolbar, Button } from 'sveltestrap';
 	import { Form, FormGroup, Input, Label } from 'sveltestrap';
 	import QrCode from 'svelte-qrcode';
-	let answers = [0,0,0,0,0];
-	let title = "A Scratchee Card";
-	let description = "Scratch your Scratchee Card below.";
+	let cardData = {
+		answers: [0,0,0,0,0],
+		title: "A Scratchee Card",
+		description: "Scratch your Scratchee Card below.",
+	};
 	let remove = function() {
-		answers.pop();
-		answers = answers;
+		cardData.answers = cardData.answers.slice(0,cardData.answers.length-1);
 	}
 	let add = function() {
-		answers.push(0);
-		answers = answers;
+		cardData.answers = [...cardData.answers,0];
 	}
-	$: cardObject = {
-		"answers": answers,
-		"title": title,
-		"description": description,
-	}
-	$: cardUrl = location.protocol+"//"+location.host+location.pathname+"#/card?"+btoa(JSON.stringify(cardObject));
+	$: cardUrl = location.protocol+"//"+location.host+location.pathname+"#/card?"+btoa(JSON.stringify(cardData));
 	let cardUrlPreview = location.protocol+"//"+location.host+location.pathname+"#/card?...";
 </script>
 
@@ -34,24 +29,28 @@
 	<FormGroup>
 		<Label for="cardTitle">Title</Label>
 		<Input
-		  type="text"
-		  id="cardTitle"
-		  placeholder="My Scratchee Card"
-		  bind:value={title}
+		    type="text"
+		    id="cardTitle"
+		    placeholder="My Scratchee Card"
+		    bind:value={cardData.title}
 		/>
 	</FormGroup>
 	<FormGroup>
-	  <Label for="cardDescription">Description</Label>
-	  <Input type="textarea" id="cardDescription" bind:value={description} />
+	    <Label for="cardDescription">Description</Label>
+	    <Input 
+	        type="textarea" 
+		    id="cardDescription" 
+			bind:value={cardData.description} 
+	    />
 	</FormGroup>
 	<FormGroup>
 		<ButtonToolbar>
 			<Button color="primary" on:click={add}>Add Row</Button>
-			<Button disabled={answers.length==1} color="danger" on:click={remove}>Remove Row</Button>
+			<Button disabled={cardData.answers.length==1} color="danger" on:click={remove}>Remove Row</Button>
 		</ButtonToolbar>
 	</FormGroup>
 	<FormGroup>
-		{#each answers as answer, index}
+		{#each cardData.answers as answer, index}
 			<CardRow bind:answer={answer} designMode={true} {index}/>
 		{/each}
 	</FormGroup>

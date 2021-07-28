@@ -1,8 +1,7 @@
 <script lang="ts">
 	import CardRow from '../components/CardRow.svelte';
-	import {querystring} from 'svelte-spa-router';
-	import { Form, FormGroup, Input, Label } from 'sveltestrap';
-import { prevent_default } from 'svelte/internal';
+	import { querystring } from 'svelte-spa-router';
+	import { Form, FormGroup } from 'sveltestrap';
 	let card = {"answers":[],"title":"???","description":"???"};
 	let rows = [];
     try {
