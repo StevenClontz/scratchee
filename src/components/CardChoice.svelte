@@ -5,7 +5,7 @@
     export let correct = false;
     export let disabled = false;
     let fullLabel = "??";
-    let color = "dark";
+    let color: any = "dark";
     let outline = false;
     $: if (revealed) {
         if (correct) {
