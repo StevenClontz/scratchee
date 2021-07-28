@@ -49,11 +49,9 @@
 			<Button disabled={cardData.answers.length==1} color="danger" on:click={remove}>Remove Row</Button>
 		</ButtonToolbar>
 	</FormGroup>
-	<FormGroup>
-		{#each cardData.answers as answer, index}
-			<CardRow bind:answer={answer} designMode={true} {index}/>
-		{/each}
-	</FormGroup>
+	{#each cardData.answers as answer, index}
+		<CardRow bind:answer={answer} designMode={true} {index}/>
+	{/each}
 </Form>
 
 <p>

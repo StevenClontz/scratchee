@@ -26,6 +26,7 @@
 
 <Button on:click
         style="width:3em"
+        class="me-1"
         {outline}
         {color}
         {disabled}>

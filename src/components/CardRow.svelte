@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { ButtonToolbar, Button } from 'sveltestrap';
+    import { Label, FormGroup, Button } from 'sveltestrap';
     import CardChoice from "./CardChoice.svelte";
     export let answer=0;
     export let index=0;
@@ -35,12 +35,12 @@
     }
 </script>
 
-<ButtonToolbar>
-    <Button disabled color="light">{label}.</Button>
+<FormGroup>
+    <Label>{label}.</Label>
     {#each ["A","B","C","D"] as l,i}
         <CardChoice disabled={answered&&!designMode} revealed={reveals.includes(i)} correct={answer==i} on:click={choiceClick(i)} label={l}/>
     {/each}
     {#if !designMode}
-        <Button disabled color="light">Points: {score}/4</Button>
+        <Label>Points: {score}/4</Label>
     {/if}
-</ButtonToolbar>
+</FormGroup>
