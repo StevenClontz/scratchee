@@ -7,7 +7,10 @@
 		description: "Unknown description.",
 		rows: [],
 		score: function () {
-			return this.rows.reduce((total:number, row:any) => total + (row.score || 0), 0)
+			return this.rows.reduce((total:number, row:any) => total + (row.score || 0), 0);
+		},
+		maxScore: function() {
+			return this.rows.length*4;
 		},
 	};
     try {
@@ -21,7 +24,7 @@
 
 <h1>{cardData.title}</h1>
 <p>{cardData.description}</p>
-<p>Total score: {cardData.score()}</p>
+<p>Total score: {cardData.score()}/{cardData.maxScore()}</p>
 
 {#if cardData.rows.length == 0}
 	<p>No valid Scratchee card was found.</p>
