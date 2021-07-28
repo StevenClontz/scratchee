@@ -2,7 +2,7 @@
 	import CardRow from '../components/CardRow.svelte';
     import { ButtonToolbar, Button } from 'sveltestrap';
 	import { Form, FormGroup, Input, Label } from 'sveltestrap';
-import { prevent_default } from 'svelte/internal';
+	import QrCode from 'svelte-qrcode';
 	let answers = [0,0,0,0,0];
 	let title = "A Scratchee Card";
 	let description = "Scratch your Scratchee Card below.";
@@ -19,7 +19,8 @@ import { prevent_default } from 'svelte/internal';
 		"title": title,
 		"description": description,
 	}
-	$: cardUrl = "#/card?"+btoa(JSON.stringify(cardObject));
+	$: cardUrl = location.protocol+"//"+location.host+location.pathname+"#/card?"+btoa(JSON.stringify(cardObject));
+	let cardUrlPreview = location.protocol+"//"+location.host+location.pathname+"#/card?...";
 </script>
 
 
@@ -57,8 +58,13 @@ import { prevent_default } from 'svelte/internal';
 </Form>
 
 <p>
-	Share this link to distribute card:
+	Share this QR Code to distribute card:
+</p>
+
+<QrCode value={cardUrl}/>
+
+<p>
 	<a href={cardUrl} target="_blank">
-		{location.protocol}//{location.host}{location.pathname}#/card?...
+		{cardUrlPreview}
 	</a>
 </p>
