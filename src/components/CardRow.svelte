@@ -9,18 +9,20 @@
     })
     export let designMode=false;
     export let reveals = [];
-    $: if (designMode) {
-        reveals = [0,1,2,3];
+    if (designMode) {
+        reveals = [0,1,2,3,4];
     }
     export let score = 0;
     $: answered = reveals.includes(answer)
     $: if (!answered) {
         score = 0; 
     } else if (reveals.length == 1) {
-        score = 4;
+        score = 10;
     } else if (reveals.length == 2) {
-        score = 2;
+        score = 6;
     } else if (reveals.length == 3) {
+        score = 3;
+    } else if (reveals.length == 4) {
         score = 1;
     } else {
         score = 0;
@@ -37,10 +39,10 @@
 
 <FormGroup>
     <Label>{label}.</Label>
-    {#each ["A","B","C","D"] as l,i}
+    {#each ["A","B","C","D","E"] as l,i}
         <CardChoice disabled={answered&&!designMode} revealed={reveals.includes(i)} correct={answer==i} on:click={choiceClick(i)} label={l}/>
     {/each}
     {#if !designMode}
-        <Label>Points: {score}/4</Label>
+        <Label>Points: {score}/10</Label>
     {/if}
 </FormGroup>

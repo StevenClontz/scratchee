@@ -10,7 +10,7 @@
 			return this.rows.reduce((total:number, row:any) => total + (row.score || 0), 0);
 		},
 		maxScore: function() {
-			return this.rows.length*4;
+			return this.rows.length*10;
 		},
 	};
     try {
