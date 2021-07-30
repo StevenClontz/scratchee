@@ -3,20 +3,18 @@
     import { ButtonToolbar, Button } from 'sveltestrap';
 	import { Form, FormGroup, Input, Label } from 'sveltestrap';
 	import QrCode from 'svelte-qrcode';
-	let newRow = {answer:0};
-	let cardData = {
-		rows: [...Array(5)].map(()=>Object.assign({},newRow)),
-		title: "A Scratchee Card",
-		description: "Scratch your Scratchee Card below.",
-	};
-	let remove = function() {
-		cardData.rows = cardData.rows.slice(0,cardData.rows.length-1);
+	import { Card } from '../models/Card';
+	let card = new Card(
+		"A Scratchee Card",
+		"Scratch your Scratchee Card below.",
+		[0,0,0,0,0]
+	)
+	let addRow = () => {
+		card.addRow(); card=card;
 	}
-	let add = function() {
-		cardData.rows = [...cardData.rows,{...newRow}];
+	let removeRow = () => {
+		card.removeRow(); card=card;
 	}
-	$: cardUrl = location.protocol+"//"+location.host+location.pathname+"#/card?"+btoa(JSON.stringify(cardData));
-	let cardUrlPreview = location.protocol+"//"+location.host+location.pathname+"#/card?...";
 </script>
 
 
@@ -33,7 +31,7 @@
 		    type="text"
 		    id="cardTitle"
 		    placeholder="My Scratchee Card"
-		    bind:value={cardData.title}
+		    bind:value={card.title}
 		/>
 	</FormGroup>
 	<FormGroup>
@@ -41,17 +39,17 @@
 	    <Input 
 	        type="textarea" 
 		    id="cardDescription" 
-			bind:value={cardData.description} 
+			bind:value={card.description} 
 	    />
 	</FormGroup>
 	<FormGroup>
 		<ButtonToolbar>
-			<Button color="primary" on:click={add}>Add Row</Button>
-			<Button disabled={cardData.rows.length==1} color="danger" on:click={remove}>Remove Row</Button>
+			<Button color="primary" on:click={addRow}>Add Row</Button>
+			<Button disabled={card.rows.length==1} color="danger" on:click={removeRow}>Remove Row</Button>
 		</ButtonToolbar>
 	</FormGroup>
-	{#each cardData.rows as row, index}
-		<CardRow bind:answer={row.answer} designMode={true} {index}/>
+	{#each card.rows as row, index}
+		<CardRow bind:row={row} designMode={true} {index}/>
 	{/each}
 </Form>
 
@@ -59,10 +57,10 @@
 	Share this QR Code to distribute card:
 </p>
 
-<QrCode value={cardUrl}/>
+<QrCode value={card.url()}/>
 
 <p>
-	<a href={cardUrl} target="_blank">
-		{cardUrlPreview}
+	<a href={card.url()} target="_blank">
+		{card.url(true)}
 	</a>
 </p>
