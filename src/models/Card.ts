@@ -1,3 +1,5 @@
+import md5 from 'md5';
+
 export class Row {
     answer: number;
     scratches: Set<number>;
@@ -62,6 +64,20 @@ export class Card {
     removeRow(answer:number=0) {
         this.rows = this.rows.slice(0,this.rows.length-1)
     }
+
+    storeScratches() {
+        let scratchArray = this.rows.map(r=>Array.from(r.scratches))
+        localStorage.setItem(this.md5(), JSON.stringify(scratchArray));
+    }
+
+    loadScratches() {
+        try { 
+            let scratchArray = JSON.parse(localStorage.getItem(this.md5()))
+            scratchArray.forEach((scratches:Set<number>,i:number) => {
+                this.rows[i].scratches = new Set(scratches)
+            }) 
+        } catch {} finally {}
+    }
     
     url(fragment:boolean=false) {
         if (fragment) {
@@ -81,6 +97,10 @@ export class Card {
 
     base64() {
         return btoa(this.json())
+    }
+
+    md5() {
+        return md5(this.base64())
     }
 
     static fromJson (jsonString:string) {

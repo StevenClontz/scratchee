@@ -1,13 +1,13 @@
 <script lang="ts">
     import { Button } from 'sveltestrap';
     export let label = "?";
-    export let revealed = false;
+    export let scratched = false;
     export let correct = false;
     export let disabled = false;
     let fullLabel = "??";
     let color: any = "dark";
     let outline = false;
-    $: if (revealed) {
+    $: if (scratched) {
         if (correct) {
             color = "primary";
             outline = false;

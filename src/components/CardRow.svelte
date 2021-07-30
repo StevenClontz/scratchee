@@ -23,7 +23,7 @@
     {#each ["A","B","C","D","E"] as l,i}
         <CardChoice
             disabled={!designMode && row.answered()}
-            revealed={designMode || row.scratches.has(i)}
+            scratched={designMode || row.scratches.has(i)}
             correct={row.hasAnswer(i)}
             on:click={choiceClick(i)}
             label={l}/>

@@ -63,4 +63,5 @@
 	<a href={card.url()} target="_blank">
 		{card.url(true)}
 	</a>
+	{card.md5()}
 </p>

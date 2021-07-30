@@ -2,11 +2,13 @@
 	import CardRow from '../components/CardRow.svelte';
 	import { Card } from '../models/Card';
 	import { querystring } from 'svelte-spa-router';
-	import { Form } from 'sveltestrap';
+	import { Form, Button } from 'sveltestrap';
 	let card = new Card()
 	try {
 		card = Card.fromBase64($querystring);
 	} catch {} finally {}
+	card.loadScratches(); card=card;
+	$: card.storeScratches();
 </script>
 
 <h1>{card.title}</h1>
