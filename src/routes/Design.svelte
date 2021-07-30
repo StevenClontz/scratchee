@@ -24,6 +24,12 @@
 	<small class="text-muted">α.1</small>
 </h1>
 
+<p>
+	by <a href="https://clontz.org">Steven Clontz</a> | 
+	<a href="https://github.com/StevenClontz/scratchee">GitHub</a> |
+	<a href="https://sites.google.com/southalabama.edu/tbil">Team-Based Inquiry Learning</a>
+</p>
+
 <TabContent>
 	<TabPane tabId="design" tab="Design" active>
 		<Form on:submit={e=>e.preventDefault()}>
@@ -56,11 +62,22 @@
 		</Form>
 	</TabPane>
 	<TabPane tabId="share" tab="Share">
-		<QrCode value={card.url()}/>
 		<p>
-			Link: <a href={card.url()} target="_blank">
-				{card.url(true)}
+			Scan, tap, or click:
+		</p>
+		<p>
+			<a href={card.url()} target="_blank">
+				<QrCode value={card.url()}/>
 			</a>
 		</p>
+		<FormGroup>
+		    <Input value={card.url()} readonly />
+		</FormGroup>
 	</TabPane>
 </TabContent>
+
+<style>
+	a:not(:hover) {
+		text-decoration: none;
+	}
+</style>
