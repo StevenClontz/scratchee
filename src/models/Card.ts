@@ -13,6 +13,10 @@ export class Row {
         this.scratches.add(answer);
     }
 
+    reset() {
+        this.scratches = new Set();
+    }
+
     score() {
         if (!this.scratches.has(this.answer)) {
             return 0;
@@ -41,11 +45,13 @@ export class Row {
 export class Card {
     title: string;
     description: string;
+    resets: number;
     rows: Array<Row>;
 
     constructor(title:string="Untitled", description:string="No description", answers: Array<number>=[]) {
         this.title = title;
         this.description = description;
+        this.resets = 0;
         this.rows = answers.map(a=>new Row(a))
     }
 
@@ -57,23 +63,32 @@ export class Card {
         return this.rows.length*10;
     }
 
+    reset() {
+        this.resets = this.resets+1;
+        this.rows.forEach(r=>r.reset());
+    }
+
     addRow(answer:number=0) {
         this.rows = [...this.rows, new Row(answer)]
     }
 
-    removeRow(answer:number=0) {
+    removeRow() {
         this.rows = this.rows.slice(0,this.rows.length-1)
     }
 
-    storeScratches() {
+    storeState() {
         let scratchArray = this.rows.map(r=>Array.from(r.scratches))
-        localStorage.setItem(this.md5(), JSON.stringify(scratchArray));
+        localStorage.setItem(
+            this.md5(), 
+            JSON.stringify({"scratchArray":scratchArray,"resets":this.resets}),
+        );
     }
 
-    loadScratches() {
+    loadState() {
         try { 
-            let scratchArray = JSON.parse(localStorage.getItem(this.md5()))
-            scratchArray.forEach((scratches:Set<number>,i:number) => {
+            let state = JSON.parse(localStorage.getItem(this.md5()))
+            this.resets = state.resets
+            state.scratchArray.forEach((scratches:Array<number>,i:number) => {
                 this.rows[i].scratches = new Set(scratches)
             }) 
         } catch {} finally {}
@@ -96,11 +111,15 @@ export class Card {
     }
 
     base64() {
-        return btoa(this.json())
+        return btoa(this.json());
     }
 
     md5() {
-        return md5(this.base64())
+        return md5(this.base64());
+    }
+
+    id() {
+        return this.md5().substring(0,6);
     }
 
     static fromJson (jsonString:string) {

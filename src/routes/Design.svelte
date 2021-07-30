@@ -5,6 +5,7 @@
     import { TabContent, TabPane } from 'sveltestrap';
 	import QrCode from 'svelte-qrcode';
 	import { Card } from '../models/Card';
+import { identity } from 'svelte/internal';
 	let card = new Card(
 		"A Scratchee Card",
 		"Scratch your Scratchee Card below.",
@@ -60,10 +61,11 @@
 				<CardRow bind:row={row} designMode={true} {index}/>
 			{/each}
 		</Form>
+		<p>ID: {card.id()}</p>
 	</TabPane>
 	<TabPane tabId="share" tab="Share">
 		<p>
-			Scan, tap, or click:
+			Scan, tap, or click to share card ID {card.id()}:
 		</p>
 		<p>
 			<a href={card.url()} target="_blank">
